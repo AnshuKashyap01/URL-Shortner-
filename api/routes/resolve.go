@@ -27,7 +27,7 @@ func ResolveURL(c fiber.Ctx) error {
 	rInr := database.CreateClient(1)
 	defer rInr.Close()
 
-	_= rInr.Incr(database.Ctx,"counter")
+	_= rInr.Incr(database.Ctx,"clicks:"+url)
 
 
 	return c.Redirect().Status(301).To(value)
