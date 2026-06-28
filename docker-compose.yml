@@ -13,5 +13,9 @@ services:
     build: db
     ports:
       - "6379:6379"
-    volume:
+    volumes:
       - .data:/data
+
+
+volumes:
+  data:
