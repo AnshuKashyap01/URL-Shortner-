@@ -21,6 +21,8 @@ func setupRoutes(app *fiber.App) {
 	app.Post("/login", routes.Login)
 	app.Delete("/url/:id", middleware.Protected(), routes.DeleteURL)
 
+	app.Get("/qr/:url", routes.GenerateQr)
+
 	// Always keep this at the end
 	app.Get("/:url", routes.ResolveURL)
 }

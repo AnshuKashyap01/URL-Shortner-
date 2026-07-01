@@ -22,6 +22,7 @@ type request struct {
 type response struct {
 	URL             string        `json:"url"`
 	CustomShort     string        `json:"short"`
+	QRcode          string        `json:"qr"`
 	Expiry          time.Duration `json:"expiry"`
 	XRateRemaining  int           `json:"rate_limit"`
 	XRateLimitReset time.Duration `json:"rate_limit_reset"`
@@ -144,6 +145,7 @@ func ShortenURL(c fiber.Ctx) error {
 	resp := response{
 		URL:             body.URL,
 		CustomShort:     "",
+		QRcode:          "",
 		Expiry:          body.Expiry,
 		XRateRemaining:  10,
 		XRateLimitReset: 30,
@@ -157,6 +159,7 @@ func ShortenURL(c fiber.Ctx) error {
 	resp.XRateLimitReset = ttl / time.Nanosecond / time.Minute
 
 	resp.CustomShort = os.Getenv("DOMAIN") + "/" + id
+	resp.QRcode = os.Getenv("DOMAIN") + "/qr/" + id
 
 	return c.Status(fiber.StatusOK).JSON(resp)
 }
