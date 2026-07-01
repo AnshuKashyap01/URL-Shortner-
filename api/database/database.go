@@ -20,3 +20,11 @@ func CreateClient(dbNo int)  *redis.Client {
 	return  rdb
 }
  
+
+// House
+//  |
+//  +--- Room 0 -> URLs
+//  |
+//  +--- Room 1 -> Analytics + Rate Limits
+//  |
+//  +--- Room 2 -> Users
