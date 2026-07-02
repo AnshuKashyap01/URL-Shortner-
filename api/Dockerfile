@@ -19,6 +19,7 @@ WORKDIR /app
 
 COPY --from=builder /build/main .
 COPY --from=builder /build/.env .
+COPY --from=builder /build/static ./static
 
 USER appuser
 

@@ -29,6 +29,8 @@ func DeleteURL(c fiber.Ctx) error {
 
 	r.Del(database.Ctx, id)
 
+	r.Del(database.Ctx, "clicks:"+id)
+
 	r.HDel(
 		database.Ctx,
 		"user_urls:"+username,
