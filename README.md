@@ -6,46 +6,28 @@
 ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-A production-ready URL Shortener built with Go, Fiber, Redis, and JWT Authentication. The application allows users to create custom short URLs, generate QR codes, track click analytics, and securely manage their links through an authenticated dashboard.
 
----
+A production-inspired URL shortening service built with Go, Fiber, and Redis. The application allows authenticated users to create and manage short URLs, generate QR codes, track click analytics, and securely manage their links through a responsive web interface.
+
+## Live Demo
+
+**Application:** https://url-shortner-xv7d.onrender.com
 
 ## Features
 
-### Authentication
-
-- User registration
-- Secure login using JWT
-- Protected API routes
-- Logout functionality
-
-### URL Management
-
-- Shorten long URLs
-- Create custom aliases
-- Redirect using short URLs
-- Delete existing URLs
-- View all created URLs
-
-### Analytics
-
-- Track total click count
-- View analytics for each URL
-
-### QR Code
-
-- Generate QR codes for every shortened URL
-- Open QR code directly from the dashboard
-
-### User Experience
-
-- Responsive interface
-- Toast notifications
-- Loading states
-- Delete confirmation modal
-- Empty state UI
-- Form validation
-- Guest mode for unauthenticated users
+- User authentication with JWT
+- Create short URLs with optional custom aliases
+- Automatic URL expiration
+- QR code generation for every shortened URL
+- Click analytics
+- Personal dashboard to manage URLs
+- Delete URLs
+- Rate limiting using Redis
+- Responsive user interface
+- Toast notifications and confirmation modals
+- Docker support
+- Redis Cloud integration
+- Deployed on Render
 
 ---
 
@@ -57,6 +39,7 @@ A production-ready URL Shortener built with Go, Fiber, Redis, and JWT Authentica
 - Fiber
 - Redis
 - JWT Authentication
+- bcrypt
 
 ### Frontend
 
@@ -64,91 +47,82 @@ A production-ready URL Shortener built with Go, Fiber, Redis, and JWT Authentica
 - CSS
 - JavaScript
 
-### Tools
+### Deployment
 
+- Render
+- Redis Cloud
 - Docker
-- Git
-- GitHub
 
 ---
 
 ## Project Structure
 
 ```
-URL-Shortner
-│
-├── database/
-├── helpers/
-├── middleWare/
-├── Models/
-├── routes/
-│
-├── static/
-│   ├── css/
-│   ├── js/
+.
+├── database
+├── helpers
+├── middleWare
+├── Models
+├── routes
+├── static
+│   ├── css
+│   ├── js
 │   ├── index.html
 │   ├── login.html
 │   └── signup.html
-│
 ├── main.go
 ├── Dockerfile
-├── go.mod
-└── go.sum
+└── docker-compose.yml
 ```
 
 ---
 
 ## API Endpoints
 
-### Authentication
-
 | Method | Endpoint | Description |
-|----------|-----------|-------------|
+|---------|----------|-------------|
 | POST | `/signup` | Register a new user |
-| POST | `/login` | Authenticate user |
-
----
-
-### URL Operations
-
-| Method | Endpoint | Description |
-|----------|-----------|-------------|
-| POST | `/api/v1` | Create a shortened URL |
+| POST | `/login` | Login and receive JWT |
+| POST | `/api/v1` | Create a short URL |
 | GET | `/go/:url` | Redirect to original URL |
-| GET | `/myurls` | Get all URLs of authenticated user |
-| DELETE | `/url/:id` | Delete a shortened URL |
+| GET | `/analytics/:url` | Get click analytics |
+| GET | `/myurls` | Retrieve user's URLs |
+| DELETE | `/url/:id` | Delete a URL |
+| GET | `/qr/:url` | Generate QR Code |
 
 ---
 
-### Analytics
+## Environment Variables
 
-| Method | Endpoint | Description |
-|----------|-----------|-------------|
-| GET | `/analytics/:url` | Retrieve click statistics |
+Create a `.env` file in the project root.
+
+```env
+APP_PORT=3000
+
+DB_ADDR=your_redis_host:port
+DB_USER=default
+DB_PASS=your_redis_password
+
+DOMAIN=http://localhost:3000
+
+JWT_SECRET=your_secret_key
+
+API_QUOTA=10
+```
 
 ---
 
-### QR Code
-
-| Method | Endpoint | Description |
-|----------|-----------|-------------|
-| GET | `/qr/:url` | Generate QR code |
-
----
-
-## Installation
+## Running Locally
 
 ### Clone the repository
 
 ```bash
-git clone https://github.com/AnshuKashyap01/URL-Shortner.git
+git clone https://github.com/AnshuKashyap01/URL_Shortner.git
 ```
 
 ```bash
-cd URL-Shortner/api
+cd URL_Shortner
 ```
-
----
 
 ### Install dependencies
 
@@ -156,29 +130,9 @@ cd URL-Shortner/api
 go mod download
 ```
 
----
+### Configure environment variables
 
-### Configure Environment Variables
-
-Create a `.env` file in the project root.
-
-Example:
-
-```env
-APP_PORT=:3000
-DB_ADDR=localhost:6379
-JWT_SECRET=your_secret_key
-API_QUOTA=10
-DOMAIN=http://localhost:3000
-```
-
----
-
-### Start Redis
-
-Ensure Redis is running before starting the application.
-
----
+Create a `.env` file using the template above.
 
 ### Run the application
 
@@ -186,7 +140,7 @@ Ensure Redis is running before starting the application.
 go run main.go
 ```
 
-Visit:
+Open:
 
 ```
 http://localhost:3000
@@ -194,7 +148,7 @@ http://localhost:3000
 
 ---
 
-## Running with Docker
+## Docker
 
 Build the image
 
@@ -205,62 +159,65 @@ docker build -t url-shortener .
 Run the container
 
 ```bash
-docker run -p 3000:3000 \
--e APP_PORT=:3000 \
--e DB_ADDR=host.docker.internal:6379 \
--e JWT_SECRET=your_secret_key \
--e API_QUOTA=10 \
--e DOMAIN=http://localhost:3000 \
-url-shortener
+docker run -p 3000:3000 url-shortener
 ```
 
 ---
 
-## Screenshots
+## Performance Optimizations
 
-Add screenshots of the following pages.
+- Singleton Redis client using `sync.Once`
+- Single API request for dashboard data (eliminated N+1 requests)
+- Instant UI updates after URL deletion without reloading the table
+- Redis connection pooling
+- Client-side form validation
+- JWT-protected API endpoints
 
-- Home Page
-- Login
-- Signup
-- Dashboard
-- URL Created
-- Analytics
-- QR Code
-- Delete Confirmation
+---
+
+## Security
+
+- Password hashing using bcrypt
+- JWT-based authentication
+- Protected routes using middleware
+- Redis-backed rate limiting
+- URL validation before shortening
 
 ---
 
 ## Future Improvements
 
-- URL expiration management
-- Password reset
-- Email verification
-- User profile management
-- Search and filtering
+- Search and filter URLs
+- URL edit functionality
+- Analytics dashboard with charts
+- Unit and integration testing
 - Custom domains
-- Download analytics
-- Dark mode
+- URL expiration management interface
 
 ---
 
-## Learning Outcomes
+## Screenshots
 
-This project demonstrates practical experience with:
+Add screenshots of:
 
-- REST API development
-- Authentication using JWT
-- Redis as a data store
-- Backend development with Go
-- Fiber framework
-- Docker containerization
-- Frontend integration with a Go backend
-- Responsive user interface design
-- CRUD operations
-- Client-side validation
+- Home Page
+- Login Page
+- Signup Page
+- Dashboard
+- QR Code Generation
+
+---
+
+## Author
+
+**Anshu Kashyap**
+
+GitHub: https://github.com/AnshuKashyap01
+
+LinkedIn: https://www.linkedin.com/in/anshu-kashyap01
 
 ---
 
 ## License
 
-This project is available under the MIT License.
+This project is licensed under the MIT License.
