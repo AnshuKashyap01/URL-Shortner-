@@ -1,16 +1,5 @@
 let urlToDelete = "";
 
-async function getClicks(short) {
-
-    const response = await fetch(`/analytics/${short}`);
-
-    const data = await response.json();
-
-    return data.clicks;
-
-}
-
-
 async function loadMyUrls() {
 
     const token = localStorage.getItem("token");
@@ -48,72 +37,66 @@ async function loadMyUrls() {
 
     tableContainer.style.display = "table";
 
-    for (const short in data.urls) {
+    for (const url of data.urls) {
 
-        const original = new URL(data.urls[short]).hostname;
-        const clicks = await getClicks(short);
+    table.innerHTML += `
 
+    <tr id="row-${url.short}">
 
-        table.innerHTML += `
+        <td>
 
-        <tr>
+            <a href="/go/${url.short}" target="_blank">
 
-            <td>
+                ${url.short}
 
-                <a href="/go/${short}" target="_blank">
+            </a>
 
-                    ${short}
+        </td>
 
-                </a>
+        <td>
 
-            </td>
+            <a href="${url.original}" target="_blank">
 
-            <td>
+                ${new URL(url.original).hostname}
 
-                <a href="${data.urls[short]}" target="_blank">
+            </a>
 
-                    ${new URL(data.urls[short]).hostname}
+        </td>
 
-                </a>
+        <td>
 
-            </td>
-               <td>
+            ${url.clicks}
 
-        ${clicks}
+        </td>
 
-    </td>
+        <td>
 
-            <td>
+            <button
+                class="qrBtn"
+                onclick="window.open('/qr/${url.short}')">
 
-        <button
-        class="qrBtn"
-        onclick="window.open('/qr/${short}')">
+                QR
 
-        QR
+            </button>
 
-    </button>
+        </td>
 
-</td>
+        <td>
 
-            
+            <button
+                class="deleteBtn"
+                onclick="deleteURL('${url.short}')">
 
-<td>
+                🗑 Delete
 
-    <button
-        class="deleteBtn"
-        onclick="deleteURL('${short}')">
+            </button>
 
-        🗑 Delete
+        </td>
 
-    </button>
+    </tr>
 
-</td>
-
-        </tr>
-
-        `;
-
-    }
+    `;
+}
 
 }
 
