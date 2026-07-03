@@ -14,7 +14,7 @@ func GenerateQr(c fiber.Ctx) error {
 	shortUrl := c.Params("url")
 
 	r := database.CreateClient(0)
-	defer r.Close()
+	
 
 	_, err := r.Get(database.Ctx, shortUrl).Result()
 

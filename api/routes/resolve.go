@@ -12,7 +12,7 @@ func ResolveURL(c fiber.Ctx) error {
 
 	r := database.CreateClient(0)
 
-	defer r.Close()
+	
 
 	value, err := r.Get(database.Ctx, url).Result()
 
@@ -25,7 +25,7 @@ func ResolveURL(c fiber.Ctx) error {
 	}
 
 	rInr := database.CreateClient(0)
-	defer rInr.Close()
+	
 
 	_= rInr.Incr(database.Ctx,"clicks:"+url)
 

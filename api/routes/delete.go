@@ -11,7 +11,7 @@ func DeleteURL(c fiber.Ctx) error {
 	username := c.Locals("username").(string)
 
 	r := database.CreateClient(0)
-	defer r.Close()
+	
 
 	_, err := r.HGet(
 		database.Ctx,

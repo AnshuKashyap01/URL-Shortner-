@@ -19,7 +19,7 @@ func GetMyURLs(c fiber.Ctx) error {
 	username := c.Locals("username")
 
 	r := database.CreateClient(0)
-	defer r.Close()
+	
 
 	urls, err := r.HGetAll(
 		database.Ctx,
