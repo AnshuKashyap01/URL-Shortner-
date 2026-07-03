@@ -3,8 +3,6 @@ const button = document.getElementById("generate");
 button.addEventListener("click", async function () {
 
 
-    await new Promise(resolve => setTimeout(resolve, 500));
-
     const url = document.getElementById("url").value.trim();
     const short = document.getElementById("short").value.trim();
 
@@ -41,6 +39,9 @@ button.addEventListener("click", async function () {
 
     button.disabled = true;
     button.innerText = "Generating...";
+
+
+    
     const response = await fetch("/api/v1", {
 
         method: "POST",
@@ -85,7 +86,7 @@ button.addEventListener("click", async function () {
 
     <input
         id="generatedUrl"
-        value="http://${data.short}"
+        value="${window.location.origin}/go/${data.short}"
         readonly>
 
     <div class="resultButtons">
@@ -98,7 +99,7 @@ button.addEventListener("click", async function () {
 
         <button
             id="openBtn"
-            onclick="window.open('http://${data.short}','_blank')">
+            onclick="window.open('${window.location.origin}/go/${data.short}','_blank')"
 
             🔗 Open
 
@@ -109,7 +110,7 @@ button.addEventListener("click", async function () {
     <div class="qrSection">
 
         <img
-            src="http://${data.qr}"
+            src="${window.location.origin}/qr/${data.short}"
             width="180"
             alt="QR Code">
 

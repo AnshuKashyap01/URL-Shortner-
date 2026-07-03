@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -30,12 +29,9 @@ func setupRoutes(app *fiber.App) {
 
 func main() {
 
-	err := godotenv.Load() //godotenv.Load() ka kaam .env file ko load karna hai taaki os.Getenv() se uske variables access kar sako.
-
-	if err != nil {
-		fmt.Println(err)
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found, using environment variables")
 	}
-
 	app := fiber.New()
 
 	app.Use(logger.New()) //Fiber mein ek middleware add karta hai jo har HTTP request
