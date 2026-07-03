@@ -63,6 +63,7 @@ button.addEventListener("click", async function () {
     });
 
     const data = await response.json();
+    console.log(data);
 
     const result = document.getElementById("result");
 
@@ -99,7 +100,7 @@ button.addEventListener("click", async function () {
 
         <button
             id="openBtn"
-           onclick="window.open('${data.short}','_blank')"
+           onclick="window.open('${data.short}','_blank')">
 
             🔗 Open
 
