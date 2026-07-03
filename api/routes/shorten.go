@@ -128,6 +128,13 @@ func ShortenURL(c fiber.Ctx) error {
 		})
 	}
 
+	saved, err := r.Get(database.Ctx, id).Result()
+	if err != nil {
+		println("ERROR reading back key:", err.Error())
+	} else {
+		println("Saved successfully:", id, "=>", saved)
+	}
+
 	username := c.Locals("username")
 	err = r.HSet(
 		database.Ctx,
