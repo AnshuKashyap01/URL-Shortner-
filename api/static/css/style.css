@@ -7,6 +7,7 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     background: #f5f5f5;
+    overflow-x: hidden;
 }
 
 /* ================= NAVBAR ================= */
@@ -563,82 +564,162 @@ footer p {
 
 /* ================= MOBILE ================= */
 
-@media (max-width:768px){
+@media (max-width: 768px) {
 
-    nav{
+    nav {
+        padding: 15px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
 
-        flex-direction:column;
+    nav h2 {
+        font-size: 24px;
+    }
 
-        gap:15px;
+    nav div {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
 
-        padding:20px;
+    .welcomeText {
+        margin-right: 0;
+        font-size: 16px;
+    }
+
+    .nav-btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .hero {
+
+        margin: 25px 12px;
 
     }
 
-    .hero{
-
-        margin:40px 0;
-
+    .hero h1 {
+        font-size: 34px;
+        line-height: 1.2;
+        text-align: center;
     }
 
-    .hero h1{
-
-        font-size:34px;
-
-        text-align:center;
-
-    }
-
-    .hero p{
-
-        text-align:center;
-
-        padding:0 15px;
-
-    }
+   .hero p {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
 
     .card,
     .result-card,
     .myurls,
-    .guest-card{
+    .guest-card {
+        width: 100%;
+        padding: 18px;
+        border-radius: 10px;
+    }
 
-        width:95%;
+    input {
+
+        font-size: 15px;
+        padding: 13px;
 
     }
 
-    .resultButtons{
+    .resultButtons {
 
-        flex-direction:column;
-
-        align-items:center;
-
-    }
-
-    .resultButtons button{
-
-        width:100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
 
     }
 
-    .guest-buttons{
+    .resultButtons button {
+        width: 100%;
+    }
 
-        flex-direction:column;
+    .qrSection img {
+
+        width: 140px;
+        height: auto;
 
     }
 
-    .guest-buttons button{
+    .modal-content {
 
-        width:100%;
+        width: min(420px, 90%);
+        padding: 22px;
 
     }
 
-    table{
+    .guest-buttons {
+        flex-direction: column;
+    }
 
-        display:block;
+    .guest-buttons button {
+        width: 100%;
+    }
 
-        overflow-x:auto;
+    footer {
+        padding: 30px 15px;
+    }
 
-        white-space:nowrap;
+    .footerLinks {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .toast {
+
+        left: 15px;
+        right: 15px;
+        top: 15px;
+        width:auto;
+
+    }
+
+}
+
+
+/* ================= TABLET ================= */
+
+@media (min-width:769px) and (max-width:1024px) {
+
+    nav {
+
+        padding: 20px 30px;
+
+    }
+
+    .hero {
+
+        margin: 50px 20px;
+
+    }
+
+    .hero h1 {
+
+        font-size: 44px;
+
+    }
+
+    .card,
+    .result-card {
+
+        width: min(700px, 90%);
+
+    }
+
+    .myurls {
+
+        width: min(900px, 95%);
 
     }
 
