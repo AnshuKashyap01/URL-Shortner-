@@ -11,7 +11,7 @@ import (
 func GetAnalytics(c fiber.Ctx) error {
 	shortUrl := c.Params("url")
 
-	r := database.CreateClient(1)
+	r := database.CreateClient(0)
 	defer r.Close()
 
 	clicks, err := r.Get(database.Ctx, "clicks:"+shortUrl).Result()

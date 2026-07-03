@@ -22,7 +22,7 @@ func Signup(c fiber.Ctx) error {
 		})
 	}
 
-	r := database.CreateClient(2)
+	r := database.CreateClient(0)
 	defer r.Close()
 
 	exists, err := r.Exists(
@@ -89,7 +89,7 @@ func Login(c fiber.Ctx) error {
 		})
 	}
 
-	r := database.CreateClient(2)
+	r := database.CreateClient(0)
 	defer r.Close()
 
 	hashedPassword, err := r.HGet(database.Ctx,

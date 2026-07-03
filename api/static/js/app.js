@@ -86,7 +86,7 @@ button.addEventListener("click", async function () {
 
     <input
         id="generatedUrl"
-        value="${window.location.origin}/go/${data.short}"
+        value="${data.short}"
         readonly>
 
     <div class="resultButtons">
@@ -99,7 +99,7 @@ button.addEventListener("click", async function () {
 
         <button
             id="openBtn"
-            onclick="window.open('${window.location.origin}/go/${data.short}','_blank')"
+           onclick="window.open('${data.short}','_blank')"
 
             🔗 Open
 
@@ -110,7 +110,7 @@ button.addEventListener("click", async function () {
     <div class="qrSection">
 
         <img
-            src="${window.location.origin}/qr/${data.short}"
+           src="${data.qr}"
             width="180"
             alt="QR Code">
 

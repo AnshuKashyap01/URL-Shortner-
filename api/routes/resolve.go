@@ -24,7 +24,7 @@ func ResolveURL(c fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error":"cannot connect to DB"})
 	}
 
-	rInr := database.CreateClient(1)
+	rInr := database.CreateClient(0)
 	defer rInr.Close()
 
 	_= rInr.Incr(database.Ctx,"clicks:"+url)

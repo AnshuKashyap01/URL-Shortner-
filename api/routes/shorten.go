@@ -64,7 +64,7 @@ func ShortenURL(c fiber.Ctx) error {
 	//     Request allow   Error return
 
 	//implement rate limiting
-	r2 := database.CreateClient(1)
+	r2 := database.CreateClient(0)
 	defer r2.Close()
 
 	val, err := r2.Get(database.Ctx, c.IP()).Result() //Current IP ke liye quota check karna
