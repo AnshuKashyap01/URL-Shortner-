@@ -9,42 +9,41 @@ import (
 	"github.com/skip2/go-qrcode"
 )
 
-func GenerateQr(c fiber.Ctx) error{
+func GenerateQr(c fiber.Ctx) error {
 
-	shortUrl:= c.Params("url")
+	shortUrl := c.Params("url")
 
 	r := database.CreateClient(0)
 	defer r.Close()
 
-	_,err := r.Get(database.Ctx , shortUrl).Result()
+	_, err := r.Get(database.Ctx, shortUrl).Result()
 
-	if err==redis.Nil {
+	if err == redis.Nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
-			"error":"Short url not found",
+			"error": "Short url not found",
 		})
 	}
 
-	if err!=nil{
+	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error":"Databse error",
+			"error": "Databse error",
 		})
 	}
 
 	//To generate QR code--->
 
-	png,err := qrcode.Encode(
-		"http://"+os.Getenv("DOMAIN")+"/"+shortUrl,
+	png, err := qrcode.Encode(
+		os.Getenv("DOMAIN")+"/go/"+shortUrl,
 		qrcode.Medium,
 		256,
 	)
-
-	if err != nil{
+	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error":"Could not generate QR code",
+			"error": "Could not generate QR code",
 		})
 	}
 
-	c.Set("Content-Type","image/png")
+	c.Set("Content-Type", "image/png")
 
 	return c.Send(png)
 
